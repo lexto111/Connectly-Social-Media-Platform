@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connectly | Profile</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            color: #29263a;
+            padding: 40px 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 750px;
+            margin: auto;
+            box-shadow: 0 8px 30px rgba(50, 30, 100, 0.08);
+        }
+
+        /* Profile Header */
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-picture,
+        .default-picture {
+            width: 125px;
+            height: 125px;
+            min-width: 125px;
+            border-radius: 50%;
+            border: 4px solid #7653e8;
+        }
+
+        .profile-picture {
+            object-fit: cover;
+        }
+
+        .default-picture {
+            background: #7653e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        .profile-info h1 {
+            color: #7653e8;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .profile-info p {
+            color: #777;
+            margin-bottom: 7px;
+        }
+
+        /* Buttons */
+
+        .edit-button,
+        .follow-button,
+        .unfollow-button {
+            display: inline-block;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 12px;
+        }
+
+        .edit-button,
+        .follow-button {
+            background: #7653e8;
+            color: white;
+        }
+
+        .unfollow-button {
+            background: #eeeaff;
+            color: #7653e8;
+        }
+
+        .edit-button:hover,
+        .follow-button:hover {
+            background: #6040cc;
+        }
+
+        .unfollow-button:hover {
+            background: #e1dbff;
+        }
+
+        /* Statistics */
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            padding: 25px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .stats strong {
+            display: block;
+            color: #29263a;
+            font-size: 21px;
+            margin-bottom: 5px;
+        }
+
+        .stats a {
+            color: #777;
+            text-decoration: none;
+        }
+
+        .stats a:hover {
+            color: #7653e8;
+        }
+
+        /* Posts */
+
+        .posts-section h2 {
+            margin: 25px 0 15px;
+            font-size: 22px;
+        }
+
+        .post {
+            border-top: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .post p {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .post img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .post small {
+            display: block;
+            color: #999;
+            margin-top: 12px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #7653e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Mobile Responsive */
+
+        @media (max-width: 550px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .profile-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .profile-picture,
+            .default-picture {
+                width: 90px;
+                height: 90px;
+                min-width: 90px;
+            }
+
+            .default-picture {
+                font-size: 32px;
+            }
+
+            .profile-info h1 {
+                font-size: 22px;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stats strong {
+                font-size: 18px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <!-- Profile Header -->
+
+    <div class="profile-header">
+
+        {% if profile.profile_picture %}
+
+            <img src="{{ profile.profile_picture.url }}"
+                 alt="Profile Picture"
+                 class="profile-picture">
+
+        {% else %}
+
+            <div class="default-picture">
+                {{ profile_user.username|first|upper }}
+            </div>
+
+        {% endif %}
+
+        <div class="profile-info">
+
+            <h1>{{ profile_user.username }}</h1>
+
+            <p>{{ profile.bio|default:"No bio added yet." }}</p>
+
+            {% if profile.location %}
+                <p>📍 {{ profile.location }}</p>
+            {% endif %}
+
+            {% if request.user == profile_user %}
+
+                <a href="{% url 'edit_profile' %}" class="edit-button">
+                    Edit Profile
+                </a>
+
+            {% endif %}
+
+            {% if request.user != profile_user %}
+
+                <form method="POST"
+                      action="{% url 'toggle_follow' profile_user.username %}">
+
+                    {% csrf_token %}
+
+                    {% if is_following %}
+
+                        <button type="submit" class="unfollow-button">
+                            Unfollow
+                        </button>
+
+                    {% else %}
+
+                        <button type="submit" class="follow-button">
+                            Follow
+                        </button>
+
+                    {% endif %}
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Profile Statistics -->
+
+    <div class="stats">
+
+        <p>
+            <strong>{{ posts.count }}</strong>
+            Posts
+        </p>
+
+        <p>
+            <a href="{% url 'followers_list' profile_user.username %}">
+                <strong>{{ followers_count }}</strong>
+                Followers
+            </a>
+        </p>
+
+        <p>
+            <a href="{% url 'following_list' profile_user.username %}">
+                <strong>{{ following_count }}</strong>
+                Following
+            </a>
+        </p>
+
+    </div>
+
+
+    <!-- User Posts -->
+
+    <div class="posts-section">
+
+        <h2>Posts</h2>
+
+        {% for post in posts %}
+
+            <div class="post">
+
+                <p>{{ post.caption }}</p>
+
+                {% if post.image %}
+
+                    <img src="{{ post.image.url }}" alt="Post image">
+
+                {% endif %}
+
+                <small>{{ post.created_at|date:"M d, Y" }}</small>
+
+            </div>
+
+        {% empty %}
+
+            <p>No posts yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+    <a href="{% url 'home' %}" class="back-link">
+        ← Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

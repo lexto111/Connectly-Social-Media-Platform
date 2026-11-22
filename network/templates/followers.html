@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connectly - {{ connection_type }}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #7653e8;
+        }
+
+        .user {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user a {
+            color: #7653e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #7653e8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>{{ connection_type }}</h1>
+
+    <p>{{ profile_user.username }}</p>
+
+    {% for connection in connections %}
+
+        <div class="user">
+
+            {% if connection_type == "Followers" %}
+                <a href="{% url 'profile' connection.follower.username %}">
+                    {{ connection.follower.username }}
+                </a>
+            {% else %}
+                <a href="{% url 'profile' connection.following.username %}">
+                    {{ connection.following.username }}
+                </a>
+            {% endif %}
+
+        </div>
+
+    {% empty %}
+
+        <p>No {{ connection_type|lower }} yet.</p>
+
+    {% endfor %}
+
+    <a class="back" href="{% url 'profile' profile_user.username %}">
+        ← Back to Profile
+    </a>
+
+</div>
+
+</body>
+</html>

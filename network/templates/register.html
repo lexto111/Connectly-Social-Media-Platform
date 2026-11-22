@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Connectly</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(60, 40, 120, 0.1);
+        }
+
+        .logo {
+            color: #7653e8;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #25213b;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #e4e0ef;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #7653e8;
+        }
+
+        .helptext {
+            display: block;
+            font-size: 11px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        ul.errorlist {
+            color: #d33;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #7653e8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #6240d0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        a {
+            color: #7653e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">Connectly.</div>
+
+    <h2>Create your account</h2>
+
+    <p class="subtitle">Join a community that connects people.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="footer">
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

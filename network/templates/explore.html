@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Explore | Connectly</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            padding: 40px 15px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #7653e8;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        input {
+            width: 75%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        button {
+            padding: 13px 22px;
+            background: #7653e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .user-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .user-card h3 {
+            color: #7653e8;
+            margin-bottom: 5px;
+        }
+
+        .user-card a {
+            color: #7653e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #7653e8;
+            text-decoration: none;
+        }
+
+        @media(max-width: 500px) {
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Explore People</h1>
+
+    <p class="subtitle">
+        Discover new people and connect with them.
+    </p>
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search by username..."
+                value="{{ query }}"
+            >
+
+            <button type="submit">Search</button>
+
+        </form>
+
+    </div>
+
+    {% for user in users %}
+
+        <div class="user-card">
+
+            <div>
+                <h3>{{ user.username }}</h3>
+
+                <p>{{ user.profile.bio|default:"Connect with me on Connectly!" }}</p>
+            </div>
+
+            <a href="{% url 'profile' user.username %}">
+                View Profile →
+            </a>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+            <h3>No users found</h3>
+            <p>Try searching with another username.</p>
+        </div>
+
+    {% endfor %}
+
+    <a href="{% url 'home' %}" class="back-link">
+        ← Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

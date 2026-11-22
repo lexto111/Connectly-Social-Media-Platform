@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile | Connectly</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #7653e8;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #7653e8;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        a {
+            color: #7653e8;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Edit Your Profile</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">Save Changes</button>
+
+            <a href="{% url 'profile' request.user.username %}">
+                Cancel
+            </a>
+        </form>
+    </div>
+</body>
+</html>

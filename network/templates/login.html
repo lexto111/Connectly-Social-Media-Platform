@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Connectly</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4ff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(60, 40, 120, 0.1);
+        }
+
+        .logo {
+            text-align: center;
+            color: #7653e8;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #25213b;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #e4e0ef;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #7653e8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #7653e8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #6240d0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        a {
+            color: #7653e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d33;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">Connectly.</div>
+
+    <h2>Welcome back!</h2>
+
+    <p class="subtitle">Login to continue your social journey.</p>
+
+    <form method="POST" action="{% url 'login' %}"></form>
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <p class="error">Invalid username or password.</p>
+        {% endif %}
+
+        <p>
+            <label>Username</label>
+            {{ form.username }}
+        </p>
+
+        <p>
+            <label>Password</label>
+            {{ form.password }}
+        </p>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="footer">
+        Don't have an account?
+        <a href="{% url 'register' %}">Sign up</a>
+    </div>
+
+</div>
+
+</body>
+</html>

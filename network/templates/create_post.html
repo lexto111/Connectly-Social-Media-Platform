@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Post | Connectly</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f6f4ff;
+            display: flex;
+            justify-content: center;
+            padding: 60px 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            width: 450px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px #0001;
+        }
+
+        h2 {
+            color: #7653e8;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #7653e8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Create a post</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <textarea name="caption"
+                  placeholder="What's on your mind?"
+                  required></textarea>
+
+        <label>Upload an image (optional)</label>
+        <input type="file" name="image" accept="image/*">
+
+        <button type="submit">Publish Post</button>
+    </form>
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</div>
+
+</body>
+</html>
